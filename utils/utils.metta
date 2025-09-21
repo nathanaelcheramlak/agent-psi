@@ -67,6 +67,92 @@
         ))
 ))
 
+(= (addRules2 $space) (
+    add-reduct $space 
+        (superpose (
+            (: Rule 1
+                (TTV 0)
+                (STV 0.5 0.002)  
+                (Complexity 1)
+                (Context ((Position CLOSE_RANGE)))
+                (Action (ATTACK SWORD))
+                (Goal (HIT))   ; high success
+            )
+
+            (: Rule 2
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position CLOSE_RANGE)))
+                (Action (ATTACK BOW))
+                (Goal (HIT))   ; low success
+            )
+
+            (: Rule 3
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position CLOSE_RANGE)))
+                (Action (CAST FIREBALL))
+                (Goal (HIT))   ; medium success
+            )
+
+            (: Rule 4
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position MID_RANGE)))
+                (Action (ATTACK SWORD))
+                (Goal (HIT))   ; low success (too far for sword)
+            )
+
+            (: Rule 5
+                (TTV 0)
+                (STV 0.5 0.002)  
+                (Complexity 1)
+                (Context ((Position MID_RANGE)))
+                (Action (ATTACK BOW))
+                (Goal (HIT))   ; high success (optimal here)
+            )
+
+            (: Rule 6
+                (TTV 0)
+                (STV 0.5 0.002)  
+                (Complexity 1)
+                (Context ((Position MID_RANGE)))
+                (Action (CAST FIREBALL))
+                (Goal (HIT))   ; medium success
+            )
+
+            (: Rule 7
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position LONG_RANGE)))
+                (Action (ATTACK SWORD))
+                (Goal (HIT))   ; 0% success (too far)
+            )
+
+            (: Rule 8
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position LONG_RANGE)))
+                (Action (ATTACK BOW))
+                (Goal (HIT))   ; medium success
+            )
+
+            (: Rule 9
+                (TTV 0)
+                (STV 0.5 0.002) 
+                (Complexity 1)
+                (Context ((Position LONG_RANGE)))
+                (Action (CAST FIREBALL))
+                (Goal (HIT))   ; medium success
+            )
+        ))
+))
+
 ; !(bind! &space (new-space))
 ; !(addRules &space)
 

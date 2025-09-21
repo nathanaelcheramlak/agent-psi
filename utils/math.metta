@@ -1,3 +1,6 @@
+(= (getRandomInt $min $max) (
+    (py-atom random.randint) $min $max
+))
 
 ;; Returns a random number between 0 - 1
 ; TODO: implement manually for mettalog compatibility
@@ -21,6 +24,7 @@
 
 (= (max $x $y) (if (> $x $y) $x $y))
 (= (min $x $y) (if (> $x $y) $y $x))
+(= (round $num $sig) ((py-atom round) $num $sig))
 
 (= (sample-engine $alpha $beta $a $b $gamma) (
     let* (
@@ -32,12 +36,12 @@
         ($left (+ (* $alpha $temp) (* $gamma $v)))
         ($right (+ (log 4) (log (* (* $u1 $u1) $u2))))
     ) (if (>= $left $right)
-        (/ $w (+ $b $w))
+        (round (/ $w (+ $b $w)) 4)
         (sample-engine $alpha $beta $a $b $gamma)
     )
 ))
 
-(= (sample $a $b) (
+(= (beta-sample $a $b) (
     let* (
         ($alpha (+ $a $b))
         ($beta (if (<= (min $a $b) 1) (max (/ 1 $a) (/ 1 $b)) (sqrt (/ (- $alpha 2) (- (* 2 (* $a $b)) $alpha))))) 
@@ -45,4 +49,4 @@
     ) (sample-engine $alpha $beta $a $b $gamma)
 ))
 
-!(sample 100000 1)
+; !(beta-sample 100000 1)
