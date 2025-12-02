@@ -7,27 +7,27 @@
 ;     let $rule (superpose $rules) (let $ruleContext (extractRule ContextValues $rule) (if (areSimilar $context $ruleContext) $rule Empty))
 ; ))
 
-; (= (findMatchingRules $currentGoal $cogscm) (
-;     if (== () $cogscm)
-;         ()
-;         (let* (
-;             (($head $tail) (decons-atom $cogscm))
-;             ($ruleGoal (extractRule GoalValues $head))
-;             ($isSimilar (areSimilar $currentGoal $ruleGoal))
-;             ; ($_ (println! (areSimilaring $currentGoal $ruleGoal : $isSimilar)))
-;             ($restMatches (findMatchingRules $currentGoal $tail))
-;         ) (if $isSimilar
-;             (cons-atom $head $restMatches)
-;             $restMatches))
-; ))
+(= (findMatchingRules $ruleGoal $rules) (
+    if (== () $rules)
+        ()
+        (let* (
+            (($head $tail) (decons-atom $rules))
+            ($matchingContext (extractRule ContextValues $head))
+            ($isSimilar (areSimilar $ruleGoal $matchingContext))
+            ($_ (println! (areSimilaring $ruleGoal $matchingContext : $isSimilar)))
+            ($restMatches (findMatchingRules $ruleGoal $tail))
+        ) (if $isSimilar
+            (cons-atom $head $restMatches)
+            $restMatches))
+))
 
 (= (getMatchingPremises $premises $rule $remRules) (
     let* (
-        ($ruleContext (extractRule ContextValues $rule))
-        ($_ (println! (Rule Context: $ruleContext)))
-        ($matchingRules (findMatchingRules $ruleContext $remRules))
+        ($ruleGoal (extractRule GoalValues $rule))
+        ($_ (println! (Rule Goal: $ruleGoal)))
+        ($matchingRules (findMatchingRules $ruleGoal $remRules))
         ($_ (println! (Matching Rules: $matchingRules)))
-        ($reasoned (map-atom $matchingRules $matchingRule (reason $premises $matchingRule)))
+        ($reasoned (map-atom $matchingRules $matchingRule (reason $rule $matchingRule $premises)))
         ($_ (println! (Reasoned: $reasoned)))
     ) $reasoned
 ))
