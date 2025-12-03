@@ -36,9 +36,11 @@
         ($ruleGoal (extractRule Goal $rule))
         ($matchingRuleGoal (extractRule Goal $matchingRule))
         ($ruleContext (extractRule Context $rule))
+        ($ruleContextSTV (extractRule ContextSTV $rule))
         ($ruleAction (extractRule Action $rule))
         ($ruleGoalSTV (extractRule GoalSTV $rule))
         ($newGoal (union-atom $ruleGoal $matchingRuleGoal)) ;; TODO: Clean up duplicates
+        ($newRuleContext (cons-atom AND $ruleContext))
 
         ((STV $ruleStrength $ruleConfidence) (extractRule STV $rule))
         ((STV $matchingStrength $matchingConfidence) (extractRule STV $matchingRule))
@@ -46,6 +48,6 @@
         ($newConfidence (min $ruleConfidence $matchingConfidence))
         ($newSTV (STV $newStrength $newConfidence))
 
-        ($newRule (: Rule $maxRuleId (TTV 1) $newSTV (Complexity 1) (IMPLICATION (AND $ruleContext (Action (SEQ_AND $ruleAction))) (Goal $ruleGoalSTV (AND $ruleGoal $matchingRuleGoal)))))
+        ($newRule (: Rule $maxRuleId (TTV 1) $newSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $ruleAction))) (Goal $ruleGoalSTV (AND $newGoal)))))
     ) $newRule
 ))
