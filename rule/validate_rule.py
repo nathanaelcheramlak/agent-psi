@@ -110,7 +110,7 @@ def validate_rule():
             print(f"Error processing rule: {e}")
             continue
 
-    print(f"Total valid rules: {valid_rules} out of {len(response)}")
+    print(f"Total valid rules: {valid_rules}")
 
 
 if __name__ == "__main__":

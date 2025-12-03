@@ -7,6 +7,15 @@
 ;     let $rule (superpose $rules) (let $ruleContext (extractRule ContextValues $rule) (if (areSimilar $context $ruleContext) $rule Empty))
 ; ))
 
+(= (deduction-formula (STV $Ps $Pc) (STV $Qs $Qc) (STV $Rs $Rc) (STV $PQs $PQc) (STV $QRs $QRc)) (
+    STV (if (< 0.9999 $Qs)                  ; avoid division by 0
+                ;; Qs tends to 1
+                $Rs
+                ;; Otherwise
+                (+ (* $PQs $QRs) (/ (* (- 1 $PQs) (- $Rs (* $Qs $QRs))) (- 1 $Qs))))
+            (min $Pc (min $Qc (min $Rc (min $PQc $QRc))))
+))
+
 (= (findMatchingRules $ruleGoal $rules) (
     if (== () $rules)
         ()
@@ -35,15 +44,17 @@
 (= (reason $rule $matchingRule $premises) (
     let* (
         ($randomNo 100) ;; TODO: Fix this
-        ($ruleContext (extractRule AllContext $rule))
-
-        ($ruleContextAndAction (extractRule ContextAndAction $rule))
+        ($ruleContext (extractRule Context $rule))
+        (() (println! (Rule Context: $ruleContext)))
         ($matchingRuleGoal (extractRule AllGoal $matchingRule))
+        ($matchingGoal (extractRule Goal $matchingRule))
+        ($matchingGoalSTV (extractRule GoalSTV $matchingRule))
+        (() (println! (MatchingGoal $matchingGoal)))
 
         ($ruleAction (extractRule Action $rule))
+        ($ruleContextSTV (extractRule ContextSTV $rule))
         ($matchingRuleAction (extractRule Action $matchingRule))
         ($newRuleAction (union-atom $ruleAction $matchingRuleAction))
-        (() (println! (Actions: $newRuleAction)))
 
         ($premise-five (extractRule STV $matchingRule))
         ($premise-three (extractRule GoalSTV $matchingRule))
@@ -51,24 +62,10 @@
 
         ($_ (println! (Premises: $premise-one $premise-two $premise-three $premise-four $premise-five)))
         ($newRuleSTV (deduction-formula $premise-one $premise-two $premise-three $premise-four $premise-five))
-        ($newRule (: Rule $randomNo (TTV 1) $newRuleSTV (Complexity 1) (IMPLICATION (AND $ruleContext (Action (SEQ_AND $newRuleAction))) $matchingRuleGoal)))
+        ($_ (println! (New Rule STV: $newRuleSTV)))
+        (() (println! (Rule Context: $ruleContext)))
+        (() (println! (Matching Rule Goal: $matchingRuleGoal)))
+        ($newRule (: Rule $randomNo (TTV 1) $newRuleSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $newRuleAction))) (Goal $matchingGoalSTV (AND $matchingGoal)))))
     ) $newRule
 ))
 
-; (= (extractRule $field $rule) (
-;     index-atom $rule 3
-; ))
-
-; (= (areSimilar $list1 $list2) (
-;     if (== (index-atom $list1 0) (index-atom $list2 0))
-;         True
-;         False
-; ))
-; !(findMatchingRules (Right) ((Name Nati Go (Right)) (Name Josh Go (Right))))
-
-; !(areSimilar (Name Nati Go (Right)) (Name Josh Go (Right)))
-; !(extractRule C (Name Nati Go Right))
-; (Name Nati Go Right)
-; (Name Josh Go Left)
-
-; !(help! filter-atom)
