@@ -20,7 +20,6 @@
     let* (
         ($ruleContext (extractRule ContextValues $rule))
         ($ruleAction (extractRule Action $rule))
-        ($ruleGoal (extractRule GoalValues $rule))
 
         ($matchingRules (findMatchingConjunctions $ruleContext $ruleAction $rules))
         ($_ (println! (Matching Rules for Conjunctions: $matchingRules)))
@@ -40,7 +39,6 @@
         ($ruleAction (extractRule Action $rule))
         ($ruleGoalSTV (extractRule GoalSTV $rule))
         ($newGoal (union-atom $ruleGoal $matchingRuleGoal)) ;; TODO: Clean up duplicates
-        ($newRuleContext (cons-atom AND $ruleContext))
 
         ((STV $ruleStrength $ruleConfidence) (extractRule STV $rule))
         ((STV $matchingStrength $matchingConfidence) (extractRule STV $matchingRule))

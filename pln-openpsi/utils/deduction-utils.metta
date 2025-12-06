@@ -46,7 +46,6 @@
         ($randomNo 100) ;; TODO: Fix this
         ($ruleContext (extractRule Context $rule))
         (() (println! (Rule Context: $ruleContext)))
-        ($matchingRuleGoal (extractRule AllGoal $matchingRule))
         ($matchingGoal (extractRule Goal $matchingRule))
         ($matchingGoalSTV (extractRule GoalSTV $matchingRule))
         (() (println! (MatchingGoal $matchingGoal)))
@@ -63,8 +62,6 @@
         ($_ (println! (Premises: $premise-one $premise-two $premise-three $premise-four $premise-five)))
         ($newRuleSTV (deduction-formula $premise-one $premise-two $premise-three $premise-four $premise-five))
         ($_ (println! (New Rule STV: $newRuleSTV)))
-        (() (println! (Rule Context: $ruleContext)))
-        (() (println! (Matching Rule Goal: $matchingRuleGoal)))
         ($newRule (: Rule $randomNo (TTV 1) $newRuleSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $newRuleAction))) (Goal $matchingGoalSTV (AND $matchingGoal)))))
     ) $newRule
 ))
