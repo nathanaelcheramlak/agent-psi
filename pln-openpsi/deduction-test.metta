@@ -13,13 +13,13 @@
         (Complexity 1)
         (IMPLICATION
             (AND 
-                (Context (STV 0.2 0.1) (AND 
+                (Context (STV 0.2 0.1) (AND (
                     (LEFT_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))))
-                (Action (SEQ_AND (MOVE_RIGHT)) ) )
-            (Goal (STV 0.2 0.1) (AND
+                    (STILL_ALIVE (STV 0.2 0.1)))))
+                (Action (SEQ_AND (MOVE_RIGHT))))
+            (Goal (STV 0.2 0.1) (AND (
                     (CENTER_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))
+                    (STILL_ALIVE (STV 0.2 0.1)))
         )) 
     ))
 
@@ -30,13 +30,13 @@
         (Complexity 1)
         (IMPLICATION 
             (AND 
-                (Context (STV 0.2 0.1) (AND 
+                (Context (STV 0.2 0.1) (AND (
                     (RIGHT_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))))
-                (Action (SEQ_AND (MOVE_LEFT)) ) )
-            (Goal (STV 0.2 0.1) (AND
+                    (STILL_ALIVE (STV 0.2 0.1)))))
+                (Action (SEQ_AND (MOVE_LEFT))))
+            (Goal (STV 0.2 0.1) (AND (
                     (CENTER_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))
+                    (STILL_ALIVE (STV 0.2 0.1)))
         )) 
     ))
 
@@ -47,13 +47,13 @@
         (Complexity 1)
         (IMPLICATION 
             (AND 
-                (Context (STV 0.2 0.1) (AND 
+                (Context (STV 0.2 0.1) (AND (
                     (CENTER_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))))
-                (Action (SEQ_AND (MOVE_RIGHT)) ) )
-            (Goal (STV 0.2 0.1) (AND
+                    (STILL_ALIVE (STV 0.2 0.1)))))
+                (Action (SEQ_AND (MOVE_RIGHT))))
+            (Goal (STV 0.2 0.1) (AND (
                     (RIGHT_SQUARE (STV 0.2 0.1))
-                    (STILL_ALIVE (STV 0.2 0.1))
+                    (STILL_ALIVE (STV 0.2 0.1)))
         )) 
     ))
 

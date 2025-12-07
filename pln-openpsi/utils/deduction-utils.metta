@@ -23,7 +23,6 @@
             (($head $tail) (decons-atom $rules))
             ($matchingContext (extractRule ContextValues $head))
             ($isSimilar (areSimilar $ruleGoal $matchingContext))
-            ($_ (println! (areSimilaring $ruleGoal $matchingContext : $isSimilar)))
             ($restMatches (findMatchingRules $ruleGoal $tail))
         ) (if $isSimilar
             (cons-atom $head $restMatches)
@@ -33,11 +32,8 @@
 (= (getMatchingPremises $premises $rule $remRules) (
     let* (
         ($ruleGoal (extractRule GoalValues $rule))
-        ($_ (println! (Rule Goal: $ruleGoal)))
         ($matchingRules (findMatchingRules $ruleGoal $remRules))
-        ($_ (println! (Matching Rules: $matchingRules)))
         ($reasoned (map-atom $matchingRules $matchingRule (reason $rule $matchingRule $premises)))
-        ($_ (println! (Reasoned: $reasoned)))
     ) $reasoned
 ))
 
@@ -45,10 +41,8 @@
     let* (
         ($randomNo 100) ;; TODO: Fix this
         ($ruleContext (extractRule Context $rule))
-        (() (println! (Rule Context: $ruleContext)))
         ($matchingGoal (extractRule Goal $matchingRule))
         ($matchingGoalSTV (extractRule GoalSTV $matchingRule))
-        (() (println! (MatchingGoal $matchingGoal)))
 
         ($ruleAction (extractRule Action $rule))
         ($ruleContextSTV (extractRule ContextSTV $rule))
@@ -59,7 +53,6 @@
         ($premise-three (extractRule GoalSTV $matchingRule))
         (($premise-one $premise-two $premise-four) $premises)
 
-        ($_ (println! (Premises: $premise-one $premise-two $premise-three $premise-four $premise-five)))
         ($newRuleSTV (deduction-formula $premise-one $premise-two $premise-three $premise-four $premise-five))
         ($_ (println! (New Rule STV: $newRuleSTV)))
         ($newRule (: Rule $randomNo (TTV 1) $newRuleSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $newRuleAction))) (Goal $matchingGoalSTV (AND $matchingGoal)))))

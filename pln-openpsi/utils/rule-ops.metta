@@ -6,14 +6,12 @@
         (Context (extractRuleContext $rule))
         (ContextSTV (extractRuleContextSTV $rule))
         (ContextValues (extractRuleContextValues $rule))
-        (ContextValuesWithSTV (extractRuleContextValuesWithSTV $rule))
         (Action (extractRuleAction $rule))
         (ContextAndAction (extractContextAndAction $rule))
         (AllGoal (extractAllGoal $rule))
         (Goal (extractRuleGoal $rule))
         (GoalSTV (extractRuleGoalSTV $rule))
         (GoalValues (extractRuleGoalValues $rule))
-        (GoalValuesWithSTV (extractRuleGoalValuesWithSTV $rule))
         ($default ())
     )
 ))
@@ -26,15 +24,9 @@
 ))
 
 (= (extractRuleContext $rule) (
-    unify
-      (: Rule $id $ttv $stv $complexity
-         (IMPLICATION
-            (AND (Context $context-stv $context) $action)
-            $goal
-         )
-      )
+    unify (: Rule $id $ttv $stv $complexity (IMPLICATION (AND (Context $context-stv (AND $context)) $action) $goal))
       $rule
-      (cdr-atom $context) ;; To avoid 'AND'
+      $context
       Empty         
 ))
 
@@ -49,8 +41,8 @@
 ))
 
 (= (extractRuleGoal $rule) (
-    unify (: Rule $id $ttv $stv $complexity (IMPLICATION $and-link (Goal $goal-stv $goal))) $rule
-        (cdr-atom $goal) ;; Avoids 'AND'
+    unify (: Rule $id $ttv $stv $complexity (IMPLICATION $and-link (Goal $goal-stv (AND $goal)))) $rule
+        $goal
         Empty
 ))
 
@@ -100,7 +92,7 @@
         Empty
 ))
 
-; !(extractRuleGoal (: Rule 1
+; !(extractRule Goal (: Rule 1
 ;         (TTV 0)
 ;         (STV 0.5 0.002)  
 ;         (Complexity 1)
@@ -109,9 +101,41 @@
 ;                 (Context (STV 0.2 0.1) (AND 
 ;                     (LEFT_SQUARE (STV 0.2 0.1))
 ;                     (STILL_ALIVE (STV 0.2 0.1))))
-;                 (Action (SEQ_AND (MOVE_RIGHT)) ) )
+;                 (Action (SEQ_AND (MOVE_RIGHT JUMP)) ) )
 ;             (Goal (STV 0.2 0.1) (AND
 ;                     (CENTER_SQUARE (STV 0.2 0.1))
 ;                     (STILL_ALIVE (STV 0.2 0.1))
 ;         )) 
 ; )))
+
+; !(extractRule GoalValues (: Rule 1
+;     (TTV 0)
+;     (STV 0.5 0.002)  
+;     (Complexity 1)
+;     (IMPLICATION
+;         (AND 
+;             (Context (STV 0.2 0.1) (AND (
+;                 (LEFT_SQUARE (STV 0.2 0.1))
+;                 (STILL_ALIVE (STV 0.2 0.1)))))
+;             (Action (SEQ_AND (MOVE_RIGHT JUMP)) ) )
+;         (Goal (STV 0.2 0.1) (AND (
+;                 (CENTER_SQUARE (STV 0.2 0.1))
+;                 (STILL_ALIVE (STV 0.2 0.1)))
+;     )) 
+; )))
+
+!(extractRule ContextSTV (: Rule 1
+        (TTV 0)
+        (STV 0.5 0.002)  
+        (Complexity 1)
+        (IMPLICATION
+            (AND 
+                (Context (STV 0.2 0.1) (AND (
+                    (LEFT_SQUARE (STV 0.2 0.1))
+                    (STILL_ALIVE (STV 0.2 0.1)))))
+                (Action (SEQ_AND (MOVE_RIGHT))))
+            (Goal (STV 0.2 0.1) (AND (
+                    (CENTER_SQUARE (STV 0.2 0.1))
+                    (STILL_ALIVE (STV 0.2 0.1)))
+        )) 
+    )))

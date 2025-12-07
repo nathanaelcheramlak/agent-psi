@@ -4,6 +4,7 @@
 
 (= (pln-conjunction $ruleSpace) (
     let* (
+        ($_ (println! "PLN Conjunction Started"))
         ($rules (collapse (get-atoms $ruleSpace)))
         ($conjunctions (conjunction-helper $rules))
     ) $conjunctions
@@ -14,7 +15,6 @@
         ()
         (let* (
             (($rule $remRules) (decons-atom $rules))
-            ($_ (println! (Rule: $rule Remaining: $remRules)))
             ($conjunctions (findConjunctions $rule $remRules))
             ($_ (println! (Conjunctions: $conjunctions)))
             ($restConjunctions (conjunction-helper $remRules))

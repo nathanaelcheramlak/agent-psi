@@ -7,8 +7,6 @@
             ($matchingAction (extractRule Action $head))
             ($isContextSimilar (areSimilar $ruleContext $matchingContext))
             ($isActionSimilar (areSimilar $ruleAction $matchingAction))
-            ($_ (println! (areSimilaring Context: $ruleContext $matchingContext : $isContextSimilar)))
-            ($_ (println! (areSimilaring Action: $ruleAction $matchingAction : $isActionSimilar)))
             ($restMatches (findMatchingConjunctions $ruleContext $ruleAction $tail))
         ) (if (and $isContextSimilar $isActionSimilar)
             (cons-atom $head $restMatches)
@@ -22,7 +20,6 @@
         ($ruleAction (extractRule Action $rule))
 
         ($matchingRules (findMatchingConjunctions $ruleContext $ruleAction $rules))
-        ($_ (println! (Matching Rules for Conjunctions: $matchingRules)))
         ($conjoinedGoals (map-atom $matchingRules $matchingRule (reason-conj $rule $matchingRule)))
         ($_ (println! (Conjoined Goals: $conjoinedGoals)))
     ) $conjoinedGoals
@@ -38,7 +35,8 @@
         ($ruleContextSTV (extractRule ContextSTV $rule))
         ($ruleAction (extractRule Action $rule))
         ($ruleGoalSTV (extractRule GoalSTV $rule))
-        ($newGoal (union-atom $ruleGoal $matchingRuleGoal)) ;; TODO: Clean up duplicates
+        ($newGoal (union-atom $ruleGoal $matchingRuleGoal)) 
+        ($uniqueNewGoal (unique-atom $newGoal))
 
         ((STV $ruleStrength $ruleConfidence) (extractRule STV $rule))
         ((STV $matchingStrength $matchingConfidence) (extractRule STV $matchingRule))
