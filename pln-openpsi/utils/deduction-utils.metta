@@ -33,11 +33,11 @@
     let* (
         ($ruleGoal (extractRule GoalValues $rule))
         ($matchingRules (findMatchingRules $ruleGoal $remRules))
-        ($reasoned (map-atom $matchingRules $matchingRule (reason $rule $matchingRule $premises)))
+        ($reasoned (map-atom $matchingRules $matchingRule (reason-ded $rule $matchingRule $premises)))
     ) $reasoned
 ))
 
-(= (reason $rule $matchingRule $premises) (
+(= (reason-ded $rule $matchingRule $premises) (
     let* (
         ($randomNo 100) ;; TODO: Fix this
         ($ruleContext (extractRule Context $rule))

@@ -21,7 +21,6 @@
 
         ($matchingRules (findMatchingConjunctions $ruleContext $ruleAction $rules))
         ($conjoinedGoals (map-atom $matchingRules $matchingRule (reason-conj $rule $matchingRule)))
-        ($_ (println! (Conjoined Goals: $conjoinedGoals)))
     ) $conjoinedGoals
 ))
 
@@ -44,6 +43,6 @@
         ($newConfidence (min $ruleConfidence $matchingConfidence))
         ($newSTV (STV $newStrength $newConfidence))
 
-        ($newRule (: Rule $maxRuleId (TTV 1) $newSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $ruleAction))) (Goal $ruleGoalSTV (AND $newGoal)))))
+        ($newRule (: Rule $maxRuleId (TTV 1) $newSTV (Complexity 1) (IMPLICATION (AND (Context $ruleContextSTV (AND $ruleContext)) (Action (SEQ_AND $ruleAction))) (Goal $ruleGoalSTV (AND $uniqueNewGoal)))))
     ) $newRule
 ))
