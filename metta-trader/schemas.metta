@@ -1,5 +1,5 @@
 (= (initializeSpace $ruleSpace) (
-    let $rule (superpose     
+    let $rule (superpose (  
         ;; Travel A -> B
         (: Rule 1
             (TTV 0)
@@ -418,6 +418,6 @@
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET C (STV 0.2 0.1))
                 )))
-        ))
-    ) (add-reduct $rule $ruleSpace)
-)
+        )))
+    ) (add-reduct $ruleSpace $rule)
+))

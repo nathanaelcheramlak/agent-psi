@@ -1,15 +1,26 @@
+!(register-module! ../metta-trader)
+!(import! &self rule-ops)
+!(import! &self utils)
+!(import! &self world)
+!(import! &self planner)
+!(import! &self schemas)
+
 (= (loop $contexts $money $ruleSpace) (
     let* (
         ;; ($reasonedRules (pln-reasoner $ruleSpace))
         ;; ($_ (let $rule (superpose $reasonedRules) (add-reduct $rule $ruleSpace)))
         ($rules (collapse (get-atoms $ruleSpace)))
         ($applicableRules (getApplicableRules $contexts $money $rules))
+        ($_ (println! (Applicable Rules: (size-atom $applicableRules))))
         ($selectedRule (thompson-sample $applicableRules))
+        ($_ (println! (Selected Rule: (extractRule Id $selectedRule))))
         (($newContexts $newMoney) (applyRule $selectedRule $contexts))
+        ($_ (println! (Updated: $newContexts $newMoney)))
         ($oldStateValue (evaluateState $contexts $money))
         ($newStateValue (evaluateState $newContexts $newMoney))
         ($reward (- $newStateValue $oldStateValue))
-        ($_ (updateRule $selectedRule $reward $ruleSpace))
+        ($updatedRule (updateRule $selectedRule $reward))
+        ($_ (update-atom $rule $updatedRule))
     )
     (loop $newContexts $newMoney $ruleSpace)
 ))
@@ -17,5 +28,5 @@
 
 !(bind! &ruleSpace (new-space))
 !(initializeSpace &ruleSpace)
-
+!(get-atoms &ruleSpace)
 !(loop ((PLANET A)) 100 &ruleSpace)
