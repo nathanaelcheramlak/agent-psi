@@ -191,8 +191,10 @@
     let* (
         ((STV $s $c) (extractRule STV $selectedRule))
         (($alpha $beta) (stvToBeta ($s $c)))
+        ($_ (println! (Rule STV: $alpha $beta)))
         (($newAlpha $newBeta) (updateBeta $alpha $beta $reward))
-        (($newStrength $newConfidence) (betaToSTV $newAlpha $newBeta))
+        (($newStrength $newConfidence) (betaToSTV ($newAlpha $newBeta)))
+        ($_ (println! (Updated $newStrength $newConfidence)))
         ($newRule (updateSTV $selectedRule ($newStrength $newConfidence)))
     ) $newRule
 ))

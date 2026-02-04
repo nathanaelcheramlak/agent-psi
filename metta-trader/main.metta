@@ -1,13 +1,15 @@
-!(register-module! ../metta-trader)
+;; !(register-module! ../metta-trader)
 !(import! &self rule-ops)
 !(import! &self utils)
 !(import! &self world)
 !(import! &self planner)
 !(import! &self schemas)
+!(import! &self metta-trader:pln:engine)
 
 (= (loop $contexts $money $ruleSpace) (
     let* (
-        ;; ($reasonedRules (pln-reasoner $ruleSpace))
+        ($rules (collapse (get-atoms $ruleSpace)))
+        ;; ($reasonedRules (pln-reasoning $rules))
         ;; ($_ (let $rule (superpose $reasonedRules) (add-reduct $rule $ruleSpace)))
         ($rules (collapse (get-atoms $ruleSpace)))
         ($applicableRules (getApplicableRules $contexts $money $rules))
@@ -20,13 +22,13 @@
         ($newStateValue (evaluateState $newContexts $newMoney))
         ($reward (- $newStateValue $oldStateValue))
         ($updatedRule (updateRule $selectedRule $reward))
-        ($_ (update-atom $rule $updatedRule))
+        ($_ (updateAtom $rule $updatedRule))
     )
     (loop $newContexts $newMoney $ruleSpace)
 ))
 
-
+!("Loop Started")
 !(bind! &ruleSpace (new-space))
 !(initializeSpace &ruleSpace)
-!(get-atoms &ruleSpace)
+
 !(loop ((PLANET A)) 100 &ruleSpace)
