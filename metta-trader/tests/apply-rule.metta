@@ -1,8 +1,6 @@
-!(register-module! ../../metta-trader)
-!(import! &self metta-trader:rule-ops)
-!(import! &self metta-trader:world)
-!(import! &self metta-trader:utils)
-
+!(import! &self ../rule-ops)
+!(import! &self ../world)
+!(import! &self ../utils)
 (= (TravelRule) 
         (: Rule 1
             (TTV 0)
@@ -22,8 +20,8 @@
 )
 
 ;; Travel Rule Tests
-!(assertEqual (applyTravel (TravelRule) ((PLANET A) (HAS FOOD)) 10) (((PLANET B) (HAS FOOD)) 9))
-!(assertEqual (applyTravel (TravelRule) ((PLANET A)) 10) (((PLANET B)) 9))
+!(test (applyTravel (TravelRule) ((PLANET A) (HAS FOOD)) 10) (((PLANET B) (HAS FOOD)) 9))
+!(test (applyTravel (TravelRule) ((PLANET A)) 10) (((PLANET B)) 9))
 
 
 (= (BuyRule) 
@@ -44,9 +42,9 @@
 )
 
 ;; Buy Rule Tests: It buys food in this case
-!(assertEqual (applyBuy (BuyRule) ((PLANET C)) 100) (((PLANET C) (HAS FOOD)) 82))
-!(assertEqual (applyBuy (BuyRule) ((PLANET C) (HAS FOOD)) 100) (((PLANET C) (HAS FOOD)) 82))
-!(assertEqual (applyBuy (BuyRule) ((PLANET C) (HAS FUEL)) 100) (((PLANET C) (HAS FOOD)) 82))
+!(test (applyBuy (BuyRule) ((PLANET C)) 100) (((PLANET C) (HAS FOOD)) 82))
+!(test (applyBuy (BuyRule) ((PLANET C) (HAS FOOD)) 100) (((PLANET C) (HAS FOOD)) 82))
+!(test (applyBuy (BuyRule) ((PLANET C) (HAS FUEL)) 100) (((PLANET C) (HAS FOOD)) 82))
 
 
 (= (SellRule)         
@@ -69,5 +67,5 @@
 )
 
 ;; Sell Rule Tests: It sells food in this case
-!(assertEqual (applySell (SellRule) ((PLANET A) (HAS FOOD)) 10) (((PLANET A)) 18))
-!(assertEqual (applySell (SellRule) ((PLANET A) (HAS FOOD)) 0) (((PLANET A)) 8))
+!(test (applySell (SellRule) ((PLANET A) (HAS FOOD)) 10) (((PLANET A)) 18))
+!(test (applySell (SellRule) ((PLANET A) (HAS FOOD)) 0) (((PLANET A)) 8))

@@ -8,16 +8,18 @@
         (getPlanetFromContexts $tail)
     ))
 )
-
+(= (isValidRule $contexts $money $rule)
+   (extractRule ContextValues $rule)
+)
 (= (isValidRule $contexts $money $rule) (
     let* (
         ($ruleContext (extractRule ContextValues $rule))
         ($ruleActions (extractRule Action $rule))
         ($ruleGoal (extractRule GoalValues $rule))
-
         ($ruleAction (car-atom $ruleActions))
         ($currPlanet (getPlanetFromContexts $contexts))
         ($rulePlanet (getPlanetFromContexts $ruleContext))
+        ($_ (println! ("Price: " $itemPrice)))
     ) (if (not (== $currPlanet $rulePlanet)) 
         False
         (case $ruleAction (
@@ -108,16 +110,14 @@
             (cons-atom $head $rest)
         ))
 ))
-
-(= (applyTravel $rule $contexts $money) (
+(= (applyBuy $rule $contexts $money) (
     let* (
-        ($ruleContext (extractRule ContextValues $rule))
         ($ruleGoal (extractRule GoalValues $rule))
-        ($source (getPlanetFromContexts $ruleContext))
-        ($destination (getPlanetFromContexts $ruleGoal))
-        ($cost (getTravelCost $source $destination))
-        ($newContext (updatePlanet $contexts $destination)) ;; TODO
-        ($newMoney (- $money $cost))
+        ($item (getItem $ruleGoal))
+        ($planet (getPlanetFromContexts $ruleGoal))
+        ($itemPrice (getItemPrice $item $planet))
+        ($newContext (addItem $contexts $item))
+        ($newMoney (- $money $itemPrice))
     ) ($newContext $newMoney)
 ))
 
@@ -200,5 +200,7 @@
 ))
 
 ;; Update Atoms in a space
-(: updateAtom (-> Grounded Atom Atom (->)))
+; (: updateAtom (-> Grounded Atom Atom (->)))
 (= (updateAtom $oatom $natom $space) (let $_ (remove-atom $space $oatom) (add-atom $space $natom)))
+
+

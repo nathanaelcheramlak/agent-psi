@@ -1,7 +1,7 @@
-!(register-module! ../../metta-trader)
-!(import! &self metta-trader:rule-ops)
-!(import! &self metta-trader:world)
-!(import! &self metta-trader:utils)
+
+!(import! &self ../rule-ops)
+!(import! &self ../world)
+!(import! &self ../utils)
 
 (= (TestRule) 
         (: Rule 22
@@ -21,6 +21,5 @@
                 )))
         ))
 )
-
-!(assertEqual (isValidRule ((PLANET A)) 25 (TestRule)) True)
-!(assertEqual (isValidRule ((PLANET A)) 24 (TestRule)) False)
+!(test (isValidRule ((PLANET A)) 25 (TestRule)) True)
+!(test (isValidRule ((PLANET A)) 24 (TestRule)) False)
