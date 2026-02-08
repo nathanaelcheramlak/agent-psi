@@ -162,7 +162,7 @@
     if (== $rules ())
         ()
         (let* (
-            ($_ (println! (Processing Rulingtons $rules)))
+            ; ($_ (println! (Processing Rulingtons $rules)))
             (($head $tail) (decons-atom $rules))
             ($newRule (createRule $ruleId $ttv $head))
             ($nextRuleId (+ 1 $ruleId))

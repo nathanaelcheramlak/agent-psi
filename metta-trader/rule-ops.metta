@@ -40,7 +40,7 @@
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION (AND (Context $context-stv (AND $context)) $action) $goal))
       $rule
       $context
-      Empty         
+      empty         
 ))
 
 (= (extractRuleContextValues $rule) (
@@ -50,13 +50,13 @@
 (= (extractRuleAction $rule) (
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION (AND $context (Action (SEQ_AND $action))) $goal)) $rule
         $action
-        Empty
+        empty
 ))
 
 (= (extractRuleGoal $rule) (
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION $and-link (Goal $goal-stv (AND $goal)))) $rule
         $goal
-        Empty
+        empty
 ))
 
 (= (extractRuleGoalValues $rule) (
@@ -84,31 +84,31 @@
 (= (extractContextAndAction $rule) (
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION $contextAction $goal)) $rule
         $contextAction
-        Empty
+        empty
 ))
 
 (= (extractAllGoal $rule) (
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION $contextAction $goal)) $rule
         $goal
-        Empty
+        empty
 ))
 
 (= (extractAllContext $rule) (
     unify (: Rule $id $ttv $stv $complexity (IMPLICATION (AND $context $action) $goal)) $rule
         $context
-        Empty
+        empty
 ))
 
 ;; General Rule helpers
 
 ;; For now complexity is the number of actions in the rule
-; (: calculateComplexity (-> Expression Number))
-(= (calculateComplexity $rule) (
-    let* (
-        ($action (extractRuleAction $rule))
-        ($actionCount (size-atom $action))
-    ) $actionCount
-))
+
+; (= (calculateComplexity $rule) (
+;     let* (
+;         ($action (extractRuleAction $rule))
+;         ($actionCount (size-atom $action))
+;     ) $actionCount
+; ))
 
 ;; This could be optimized by adding an atom that tracks the max TTV in the rule space instead of searching every time
 ; (: findCurrentTTV (-> hyperon::space::DynSpace Number))

@@ -1,21 +1,23 @@
 ;; Import from previous implementation
-!(import! &self planner-utils)
+; !(import! &self planner-utils)
 ;; !(import! &self rule-ops)
 ;; Takes a list of rules and returns the selected rules
 (= (thompson-sample $rules) (
     if (== $rules ())
-        (0 Nil)
+        (0 ())
         (let* (
             (($rule $tail) (decons-atom $rules))
-            ((STV $s $c) (extractRule STV $rule))
-            ($ruleId (extractRule Id $rule))
-            (($alpha $beta) (stvToBeta ($s $c)))
-            ($sampledValue (betaSample $alpha $beta))
+            ((STV $s $c) (eval (extractRule STV $rule)))
+            ($ruleId (eval (extractRule Id $rule)))
+            (($alpha $beta) (eval (stvToBeta ($s $c))))
+            ; ($_ (println! (Alpha: $alpha Beta: $beta)))
+            ($sampledValue (eval (betaSample $alpha $beta)))
             ($_ (println! (Rule $ruleId $sampledValue)))
             (($currMax $currRule) (thompson-sample $tail))
+            ; ($_ (println! (Current Max: $currMax Rule: $currRule)))
         ) (if (> $sampledValue $currMax)
             ($sampledValue $rule)
-            $currRule
+            ($currMax $currRule)
         ))
 ))
 
@@ -72,4 +74,3 @@
         ))
 ))
 
-!(thompson-sample (Rules))

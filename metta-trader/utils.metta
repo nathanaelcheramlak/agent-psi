@@ -1,8 +1,9 @@
 (= (getPlanetFromContexts $contexts) (
     let* (
         (($head $tail) (decons-atom $contexts))
-        ($contextType (index-atom $head 0))
-        ($contextValue (index-atom $head 1))
+        (($data $stv) $head)
+        ($contextType (index-atom $data 0))
+        ($contextValue (index-atom $data 1))
     ) (if (== $contextType PLANET)
         $contextValue
         (getPlanetFromContexts $tail)
@@ -24,7 +25,7 @@
                 let* (
                     ($source (getPlanetFromContexts $ruleContext))
                     ($destination (getPlanetFromContexts $ruleGoal))
-                    ($cost (getTravelCost $source $destination))
+                    ($cost (eval (getTravelCost $source $destination)))
                 ) (if (> $cost $money)
                     False
                     True
@@ -44,7 +45,7 @@
             (BUY (
                 let* (
                     ($item (getItem $ruleGoal))
-                    ($itemPrice (getItemPrice $item $currPlanet))
+                    ($itemPrice (eval (getItemPrice $item $currPlanet)))
                 ) (if (>= $money $itemPrice ) 
                     True
                     False
@@ -71,22 +72,22 @@
         ()
         (let* (
             (($head $tail) (decons-atom $contexts))
-            ($contextType (index-atom $head 0))
-            ($contextValue (index-atom $head 1))
+            (($data $stv) $head)
+            ($contextType (index-atom $data 0))
             ($rest (updatePlanet $tail $planet))
         ) (if (== $contextType PLANET)
-            (cons-atom (PLANET $planet) $rest)
+            (cons-atom ((PLANET $planet) $stv) $rest)
             (cons-atom $head $rest)
         )))
 )
 
 (= (addItem $contexts $item) (
     if (== $contexts ())
-        (cons-atom (HAS $item) ())
+        (cons-atom ((HAS $item) (STV 0.2 0.1)) ())
         (let* (
             (($head $tail) (decons-atom $contexts))
-            ($contextType (index-atom $head 0))
-            ($contextValue (index-atom $head 1))
+            (($data $stv) $head)
+            ($contextType (index-atom $data 0))
             ($rest (addItem $tail $item))
         ) (if (== $contextType HAS)
             $rest
@@ -99,8 +100,8 @@
         ()
         (let* (
             (($head $tail) (decons-atom $contexts))
-            ($contextType (index-atom $head 0))
-            ($contextValue (index-atom $head 1))
+            (($data $stv) $head)
+            ($contextValue (index-atom $data 1))
             ($rest (removeItem $tail $item))
         ) (if (== $contextValue $item)
             $rest
@@ -114,8 +115,8 @@
         ($ruleGoal (extractRule GoalValues $rule))
         ($source (getPlanetFromContexts $ruleContext))
         ($destination (getPlanetFromContexts $ruleGoal))
-        ($cost (getTravelCost $source $destination))
-        ($newContext (updatePlanet $contexts $destination)) 
+        ($cost (eval (getTravelCost $source $destination)))
+        ($newContext (updatePlanet $contexts $destination)) ;; TODO
         ($newMoney (- $money $cost))
     ) ($newContext $newMoney)
 ))
@@ -125,7 +126,7 @@
         ($item (getItem $contexts))
         ($planet (getPlanetFromContexts $contexts))
         ($newContext (removeItem $contexts $item))
-        ($newMoney (+ $money (getItemPrice $item $planet)))
+        ($newMoney (+ $money (eval (getItemPrice $item $planet))))
     ) ($newContext $newMoney)
 ))
 
@@ -134,7 +135,7 @@
         ($ruleGoal (extractRule GoalValues $rule))
         ($item (getItem $ruleGoal))
         ($planet (getPlanetFromContexts $ruleGoal))
-        ($itemPrice (getItemPrice $item $planet))
+        ($itemPrice (eval (getItemPrice $item $planet)))
         ($newContext (addItem $contexts $item))
         ($newMoney (- $money $itemPrice))
     ) ($newContext $newMoney)
@@ -142,7 +143,7 @@
 
 (= (applyRule $rule $contexts $money) (
     let* (
-        ($ruleActions (extractRule Actions $rule))
+        ($ruleActions (extractRule Action $rule))
         ($ruleAction (index-atom $ruleActions 0))
     ) (case $ruleAction (
         (TRAVEL (applyTravel $rule $contexts $money))
@@ -156,27 +157,48 @@
         ()
         (let* (
             (($head $tail) (decons-atom $contexts))
-            ($contextType (index-atom $head 0))
-            ($itemName (index-atom $head 1))
+            (($data $stv) $head)
+            ($contextType (index-atom $data 0))
+            ($itemName (index-atom $data 1))
         ) (if (== $contextType HAS)
             $itemName
             (getItem $tail)
         ))
 ))
 
+
+(= (getInventoryValue $contexts $planet) (
+     if (== $contexts ())
+         0
+         (let* (
+             (($head $tail) (decons-atom $contexts))
+             (($data $stv) $head)
+             ($contextType (index-atom $data 0))
+             ($restValue (getInventoryValue $tail $planet))
+         ) (if (== $contextType HAS)
+             (let* (
+                 ($itemName (index-atom $data 1))
+                 ($itemValue (eval (getItemPrice $itemName $planet)))
+             ) (+ $itemValue $restValue))
+            $restValue
+         ))
+ ))
+
+
 (= (evaluateState $contexts $money) (
-    let* (
-        ($item (getItem $contexts))
-        ($itemValue (getAvgPrice $item))
-    ) (+ $itemValue $money)
-))
+     let* (
+        ($planet (getPlanetFromContexts $contexts))
+        ($inventoryValue (getInventoryValue $contexts $planet))
+        ($_ (println! (Evaluating state at $planet with inventory: $inventoryValue money: $money)))
+     ) (+ $inventoryValue $money)
+ ))
 
 (= (updateBeta $alpha $beta $reward) (
     if (== $reward 0) 
         ((+ 1 $alpha) (+ 1 $beta))
         (if (> $reward 0)
             ((+ $alpha $reward) $beta)
-            ($alpha (+ $beta $reward))
+            ($alpha (+ $beta (abs-math $reward)))
         )
 ))
 
@@ -189,15 +211,14 @@
 (= (updateRule $selectedRule $reward) (
     let* (
         ((STV $s $c) (extractRule STV $selectedRule))
-        (($alpha $beta) (stvToBeta ($s $c)))
+        (($alpha $beta) (eval (stvToBeta ($s $c))))
         ($_ (println! (Rule STV: $alpha $beta)))
         (($newAlpha $newBeta) (updateBeta $alpha $beta $reward))
-        (($newStrength $newConfidence) (betaToSTV ($newAlpha $newBeta)))
+        (($newStrength $newConfidence) (eval (betaToSTV ($newAlpha $newBeta))))
         ($_ (println! (Updated $newStrength $newConfidence)))
         ($newRule (updateSTV $selectedRule ($newStrength $newConfidence)))
     ) $newRule
 ))
 
 ;; Update Atoms in a space
-; (: updateAtom (-> Grounded Atom Atom (->)))
 (= (updateAtom $oatom $natom $space) (let $_ (remove-atom $space $oatom) (add-atom $space $natom)))
