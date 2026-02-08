@@ -11,7 +11,7 @@
 
 (= (isValidRule $contexts $money $rule) (
     let* (
-        ($ruleContext (extractRule "ContextValues" $rule))
+        ($ruleContext (extractRule ContextValues $rule))
         ($ruleActions (extractRule Action $rule))
         ($ruleGoal (extractRule GoalValues $rule))
         ($ruleAction (car-atom $ruleActions))
