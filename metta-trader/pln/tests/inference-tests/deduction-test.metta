@@ -61,4 +61,4 @@
 
 )))
 
-!(pln-deduction &ruleSpace)
+!(pln-deduction (collapse (get-atoms &ruleSpace)))

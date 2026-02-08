@@ -61,4 +61,4 @@
 
 )))
 
-!(pln-conjunction &ruleSpace)
+!(pln-conjunction (collapse (get-atoms &ruleSpace)))

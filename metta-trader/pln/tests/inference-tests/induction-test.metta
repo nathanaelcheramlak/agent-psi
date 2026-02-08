@@ -61,4 +61,4 @@
 
 )))
 
-!(pln-induction &ruleSpace)
+!(pln-induction (collapse (get-atoms &ruleSpace)))
