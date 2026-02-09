@@ -1,21 +1,23 @@
 ;; Import from previous implementation
-!(import! &self planner-utils)
+; !(import! &self planner-utils)
 ;; !(import! &self rule-ops)
 ;; Takes a list of rules and returns the selected rules
 (= (thompson-sample $rules) (
     if (== $rules ())
-        (0 Nil)
+        (0 ())
         (let* (
             (($rule $tail) (decons-atom $rules))
-            ((STV $s $c) (extractRule STV $rule))
-            ($ruleId (extractRule Id $rule))
-            (($alpha $beta) (stvToBeta ($s $c)))
-            ($sampledValue (betaSample $alpha $beta))
-            ($_ (println! (Rule $ruleId $sampledValue)))
+            ((STV $s $c) (eval (extractRule STV $rule)))
+            ($ruleId (eval (extractRule Id $rule)))
+            (($alpha $beta) (eval (stvToBeta ($s $c))))
+            ; ($_ (println! (Alpha: $alpha Beta: $beta)))
+            ($sampledValue (eval (betaSample $alpha $beta)))
+            ; ($_ (println! (Rule $ruleId $sampledValue)))
             (($currMax $currRule) (thompson-sample $tail))
+            ; ($_ (println! (Current Max: $currMax Rule: $currRule)))
         ) (if (> $sampledValue $currMax)
             ($sampledValue $rule)
-            $currRule
+            ($currMax $currRule)
         ))
 ))
 
@@ -30,7 +32,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET A (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET B (STV 0.2 0.1))
@@ -47,7 +49,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET A (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET C (STV 0.2 0.1))
@@ -64,7 +66,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET B (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET A (STV 0.2 0.1))
@@ -72,4 +74,3 @@
         ))
 ))
 
-!(thompson-sample (Rules))

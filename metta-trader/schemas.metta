@@ -8,12 +8,12 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
                 )))
         ))
 
@@ -25,29 +25,12 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
-                )))
-        ))
-
-        ;; Travel B -> A
-        (: Rule 3
-            (TTV 0)
-            (STV 0.5 0.002)
-            (Complexity 1)
-            (IMPLICATION
-                (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (TRAVEL)))
-                )
-                (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
                 )))
         ))
 
@@ -59,46 +42,12 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
+                        ((PLANET B) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
-                )))
-        ))
-
-        ;; Travel C -> A
-        (: Rule 5
-            (TTV 0)
-            (STV 0.5 0.002)
-            (Complexity 1)
-            (IMPLICATION
-                (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (TRAVEL)))
-                )
-                (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
-                )))
-        ))
-
-        ;; Travel C -> B
-        (: Rule 6
-            (TTV 0)
-            (STV 0.5 0.002)
-            (Complexity 1)
-            (IMPLICATION
-                (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (TRAVEL)))
-                )
-                (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
                 )))
         ))
 
@@ -109,28 +58,28 @@
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND ((PLANET A (STV 0.2 0.1)))))
-                    (Action (SEQ_AND (BUY FOOD)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET A) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
-                    (HAS FOOD (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
+                    ((HAS FOOD) (STV 0.2 0.1))
                 )))
         ))
 
-        ;; Buy Food in B
+        ; ;; Buy Food in B
         (: Rule 8
             (TTV 0)
             (STV 0.5 0.002)
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND ((PLANET B (STV 0.2 0.1)))))
-                    (Action (SEQ_AND (BUY FOOD)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET B) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
-                    (HAS FOOD (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
+                    ((HAS FOOD) (STV 0.2 0.1))
                 )))
         ))
 
@@ -141,12 +90,12 @@
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND ((PLANET C (STV 0.2 0.1)))))
-                    (Action (SEQ_AND (BUY FOOD)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET C) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
-                    (HAS FOOD (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
+                    ((HAS FOOD) (STV 0.2 0.1))
                 )))
         ))
 
@@ -157,14 +106,12 @@
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (BUY METAL)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET A) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
-                    (HAS METAL (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
+                    ((HAS METAL) (STV 0.2 0.1))
                 )))
         ))
 
@@ -175,16 +122,15 @@
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (BUY METAL)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET B) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
-                    (HAS METAL (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
+                    ((HAS METAL) (STV 0.2 0.1))
                 )))
         ))
+
 
         ;; Buy METAL at C
         (: Rule 12
@@ -193,18 +139,16 @@
             (Complexity 1)
             (IMPLICATION
                 (AND
-                    (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                    )))
-                    (Action (SEQ_AND (BUY METAL)))
+                    (Context (STV 0.2 0.1) (AND (((PLANET C) (STV 0.2 0.1)))))
+                    (Action (SEQ_AND ((BUY METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
-                    (HAS METAL (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
+                    ((HAS METAL) (STV 0.2 0.1))
                 )))
         ))
 
-        ;; Buy FUEL at A
+        ; Buy FUEL at A
         (: Rule 13
             (TTV 0)
             (STV 0.5 0.002)
@@ -212,13 +156,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (BUY FUEL)))
+                    (Action (SEQ_AND ((BUY FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
-                    (HAS FUEL (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
+                    ((HAS FUEL) (STV 0.2 0.1))
                 )))
         ))
 
@@ -230,13 +174,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
+                        ((PLANET B) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (BUY FUEL)))
+                    (Action (SEQ_AND ((BUY FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
-                    (HAS FUEL (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
+                    ((HAS FUEL) (STV 0.2 0.1))
                 )))
         ))
 
@@ -248,13 +192,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
+                        ((PLANET C) (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (BUY FUEL)))
+                    (Action (SEQ_AND ((BUY FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
-                    (HAS FUEL (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
+                    ((HAS FUEL) (STV 0.2 0.1))
                 )))
         ))
 
@@ -266,13 +210,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
-                        (HAS FOOD (STV 0.1 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
+                        ((HAS FOOD) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FOOD)))
+                    (Action (SEQ_AND ((SELL FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
                 )))
         ))
 
@@ -284,13 +228,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
-                        (HAS FOOD (STV 0.1 0.1))
+                        ((PLANET B) (STV 0.2 0.1))
+                        ((HAS FOOD) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FOOD)))
+                    (Action (SEQ_AND ((SELL FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
                 )))
         ))
 
@@ -302,15 +246,16 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                        (HAS FOOD (STV 0.1 0.1))
+                        ((PLANET C) (STV 0.2 0.1))
+                        ((HAS FOOD) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FOOD)))
+                    (Action (SEQ_AND ((SELL FOOD))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
                 )))
         ))
+
 
         ;; Sell METAL at A
         (: Rule 19
@@ -320,13 +265,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
-                        (HAS METAL (STV 0.1 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
+                        ((HAS METAL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL METAL)))
+                    (Action (SEQ_AND ((SELL METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
                 )))
         ))
 
@@ -338,13 +283,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
-                        (HAS METAL (STV 0.1 0.1))
+                        ((PLANET B) (STV 0.2 0.1))
+                        ((HAS METAL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL METAL)))
+                    (Action (SEQ_AND ((SELL METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
                 )))
         ))
 
@@ -356,13 +301,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                        (HAS METAL (STV 0.1 0.1))
+                        ((PLANET C) (STV 0.2 0.1))
+                        ((HAS METAL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL METAL)))
+                    (Action (SEQ_AND ((SELL METAL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
                 )))
         ))
 
@@ -374,13 +319,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET A (STV 0.2 0.1))
-                        (HAS FUEL (STV 0.1 0.1))
+                        ((PLANET A) (STV 0.2 0.1))
+                        ((HAS FUEL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FUEL)))
+                    (Action (SEQ_AND ((SELL FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET A (STV 0.2 0.1))
+                    ((PLANET A) (STV 0.2 0.1))
                 )))
         ))
 
@@ -392,13 +337,13 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET B (STV 0.2 0.1))
-                        (HAS FUEL (STV 0.1 0.1))
+                        ((PLANET B) (STV 0.2 0.1))
+                        ((HAS FUEL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FUEL)))
+                    (Action (SEQ_AND ((SELL FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET B (STV 0.2 0.1))
+                    ((PLANET B) (STV 0.2 0.1))
                 )))
         ))
 
@@ -410,14 +355,14 @@
             (IMPLICATION
                 (AND
                     (Context (STV 0.2 0.1) (AND (
-                        (PLANET C (STV 0.2 0.1))
-                        (HAS FUEL (STV 0.1 0.1))
+                        ((PLANET C) (STV 0.2 0.1))
+                        ((HAS FUEL) (STV 0.1 0.1))
                     )))
-                    (Action (SEQ_AND (SELL FUEL)))
+                    (Action (SEQ_AND ((SELL FUEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
-                    (PLANET C (STV 0.2 0.1))
+                    ((PLANET C) (STV 0.2 0.1))
                 )))
-        )))
-    ) (add-reduct $ruleSpace $rule)
+        ))
+    )) (add-atom $ruleSpace $rule)
 ))
