@@ -12,7 +12,7 @@
             (($alpha $beta) (eval (stvToBeta ($s $c))))
             ; ($_ (println! (Alpha: $alpha Beta: $beta)))
             ($sampledValue (eval (betaSample $alpha $beta)))
-            ($_ (println! (Rule $ruleId $sampledValue)))
+            ; ($_ (println! (Rule $ruleId $sampledValue)))
             (($currMax $currRule) (thompson-sample $tail))
             ; ($_ (println! (Current Max: $currMax Rule: $currRule)))
         ) (if (> $sampledValue $currMax)
@@ -32,7 +32,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET A (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET B (STV 0.2 0.1))
@@ -49,7 +49,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET A (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET C (STV 0.2 0.1))
@@ -66,7 +66,7 @@
                     (Context (STV 0.2 0.1) (AND (
                         (PLANET B (STV 0.2 0.1))
                     )))
-                    (Action (SEQ_AND (TRAVEL)))
+                    (Action (SEQ_AND ((TRAVEL))))
                 )
                 (Goal (STV 0.2 0.1) (AND (
                     (PLANET A (STV 0.2 0.1))

@@ -5,10 +5,10 @@
         ($deductionResults (eval (pln-deduction $rules)))
         ($inductionResults (eval (pln-induction $rules)))
 
-        ($_ (println! (Abduction Results: $abductionResults)))
-        ($_ (println! (Conjunction Results: $conjunctionResults)))
-        ($_ (println! (Deduction Results: $deductionResults)))
-        ($_ (println! (Induction Results: $inductionResults)))
+        ; ($_ (println! (Abduction Results: $abductionResults)))
+        ; ($_ (println! (Conjunction Results: $conjunctionResults)))
+        ; ($_ (println! (Deduction Results: $deductionResults)))
+        ; ($_ (println! (Induction Results: $inductionResults)))
         
         ($reasonedRules (eval (flattenList ($deductionResults $conjunctionResults $abductionResults $inductionResults))))
         
