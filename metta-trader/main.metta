@@ -4,6 +4,7 @@
 !(import! &self planner)
 !(import! &self planner-utils)
 !(import! &self schemas)
+!(import! &self ruleSampler)
 
 !(import! &self pln/inference/deduction)
 !(import! &self pln/inference/induction)
@@ -22,7 +23,11 @@
         (println! "Reached max depth")
         (let* (
             ($rules (collapse (get-atoms $ruleSpace)))
-            ($reasonedRules (pln-reasoning $rules))
+            ($sampledRules (ruleSampler $rules 20))
+            ($reasonedRules (pln-reasoning $sampledRules))
+
+            ; ($rules (collapse (get-atoms $ruleSpace)))
+            ; ($reasonedRules (pln-reasoning $rules))
             ($_ (collapse (let $rule (superpose $reasonedRules) (add-atom $ruleSpace $rule))))
             ($combinedRules (collapse (get-atoms $ruleSpace)))
             ($_ (println! (Combined Rules: (size-atom $combinedRules))))
@@ -48,4 +53,4 @@
 !(bind! &ruleSpace (new-space))
 !(initializeSpace &ruleSpace)
 
-!(loop (((PLANET A) (STV 0.2 0.1))) 100 &ruleSpace 2)
+!(loop (((PLANET A) (STV 0.2 0.1))) 100 &ruleSpace 5)
