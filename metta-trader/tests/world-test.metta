@@ -6,6 +6,7 @@
 (TRAVEL_COST C A 1)
 (TRAVEL_COST C B 1)
 
+
 (FOOD A 8)
 (FOOD B 20)
 (FOOD C 18)
@@ -54,7 +55,6 @@
             (B 8)
             (C 22)
         )))
-        ($_ 0)
     )
 ))
 
@@ -65,3 +65,17 @@
         (METAL 15)
     )
 ))
+
+;; Travel Cost Tests
+!(test (getTravelCost A B) 1)
+!(test (getTravelCost B C) 1)
+
+;; Item Cost Tests
+!(test (getItemPrice FOOD C) 18)
+!(test (getItemPrice FUEL B) 18)
+!(test (getItemPrice METAL A) 15)
+!(test (getItemPrice FOOD A) 8)
+
+;; Average Cost Tests
+!(test (getAvgPrice FOOD) 15)
+!(test (getAvgPrice FUEL) 16)
