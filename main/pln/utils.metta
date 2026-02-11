@@ -6,7 +6,7 @@
        (empty))
 )
 
-(: isMember (-> Expression Number Bool))
+(: isMember (-> Expression Number Number))
 (= (isMember $list $val) (
     let $exists (collapse (let $member (superpose $list) (if (== $member $val) True Empty)))
     (if (== $exists ()) 0 1)
