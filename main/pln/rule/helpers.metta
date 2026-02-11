@@ -12,7 +12,7 @@
 
 (: chainActions (-> Expression Expression Expression))
 (= (chainActions $actionOne $actionTwo) (
-    ; TODO  RETURNS WITH THE WHOLE THING (SEQ_AND ...)
+    SEQ_AND (union-atom $actionOne $actionTwo)
 ))
 
 (: chainGoals (-> Expression Expression Expression))
@@ -22,7 +22,12 @@
 
 (: (visualizeRule (-> Expression Expression)))
 (= (visualizeRule $rule) (
-    ; TODO
+    let* (
+        ($contexts (extractRule ContextValues $rule))
+        ($actions (extractRule Action $rule))
+        ($goals (extractRule GoalValues $rule))
+        ($visual ($contexts => [$actions] => $goals))
+    ) $visual
 ))
 
 (: (removeDuplicateRules (-> Expression Expression)))
