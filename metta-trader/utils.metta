@@ -32,7 +32,6 @@
             (($newContexts $newMoney) (applySingleAction $rule $head $contexts $money))
             ($isValid2 (if $isValid (isValidActions $rule $tail $newContexts $newMoney) False))
         ) $isValid2
-              
         )
 ))
 
@@ -141,10 +140,8 @@
     ) ($newContext $newMoney)
 ))
 
-(= (applySell $rule $contexts $money) (
+(= (applySell $item $contexts $money) (
     let* (
-        ($ruleActions (extractRule Action $rule))
-        ($item (index-atom (car-atom $ruleActions) 1))
         ($planet (getPlanetFromContexts $contexts))
         ($newContext (removeItem $contexts $item))
         ($newMoney (+ $money (eval (getItemPrice $item $planet))))
@@ -165,10 +162,9 @@
 (= (applySingleAction $rule $action $contexts $money) (
     let* (
         ($actionType (index-atom $action 0))
-        ; ($_ (println! ("Action Type" $actionType)))
     ) (case $actionType (
         (TRAVEL (applyTravel $rule $contexts $money))
-        (SELL (applySell $rule $contexts $money))
+        (SELL (applySell (index-atom $action 1) $contexts $money ))
         (BUY (applyBuy $rule $contexts $money))
     ))
 ))
