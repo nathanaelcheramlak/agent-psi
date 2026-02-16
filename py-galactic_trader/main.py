@@ -12,9 +12,9 @@ class State:
 
 if __name__ == "__main__":
     rules = starting_rules
-    state = State(context={"planet": "A"}, money=100)
+    state = State(context={"planet": "A"}, money=1000)
 
-    for i in range(2000):
+    for i in range(5000):
         # Add a newly reasoned rule
         if reasoned_rules:
             rules.append(reasoned_rules.pop())
@@ -27,29 +27,32 @@ if __name__ == "__main__":
             sampled_value = rule.get_sample_value()
             applicable_rules.append((rule, sampled_value))
 
-        print(f"Current State: {state}")
-        for rule in rules:
-            print(rule.name, end=", ")
-        print()
         if not applicable_rules:
-            print("INFO: Couldn't find any applicable rules")
-            continue
+            print(f"INFO: Step {i}: Couldn't find any applicable rules")
+            break
         
         sorted_rules = sorted(applicable_rules, key= lambda x: x[1], reverse=True)
-        print(sorted_rules)
         chosen_rule = sorted_rules[0][0]
-        print(f"Chosen Rule: {chosen_rule.name}")
 
         # new_state = execute_rule(chosen_rule, state)
         new_state = execute_rule(chosen_rule, copy.deepcopy(state))
 
-        print(f"New State: {new_state}")
-        reward = evaluate_state(new_state, state)
+        # Calculate reward (skip for travel)
+        reward = 0
+        if chosen_rule.action != "travel":
+            reward = evaluate_state(new_state, state)
+        
         chosen_rule.update(reward)
+        
+        old_money = state.money
         state = new_state
-        print(f"Step {i}: {chosen_rule.name} -> {reward}")
+        money_change = state.money - old_money
 
-        print(state.money)
+        # Log step information
+        print(f"Step {i:4d} | {chosen_rule.action:6s} | {chosen_rule.name:25s} | "
+              f"Money: {state.money:6.0f} ({money_change:+.0f}) | "
+              f"Reward: {reward:+.1f}")
+
         if state.money <= 0:
             print('Ran out of money on iteration:', i)
             break
