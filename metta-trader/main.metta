@@ -23,7 +23,7 @@
         (println! "Reached max depth")
         (let* (
             ($rules (collapse (get-atoms $ruleSpace)))
-            ($sampledRules (ruleSampler $rules 20))
+            ($sampledRules (ruleSampler $rules 3))
             ($reasonedRules (pln-reasoning $sampledRules))
 
             ; ($rules (collapse (get-atoms $ruleSpace)))
@@ -44,6 +44,7 @@
             ($reward (- $newStateValue $oldStateValue))
             ($_ (println! (Reward: $reward)))
             ($updatedRule (updateRule $selectedRule $reward))
+            ($_ (println! (Money: $newMoney)))
             ($_ (collapse (updateAtom $selectedRule $updatedRule $ruleSpace)))
         )
     (loop $newContexts $newMoney $ruleSpace (- $depth 1))))
@@ -53,4 +54,4 @@
 !(bind! &ruleSpace (new-space))
 !(initializeSpace &ruleSpace)
 
-!(loop (((PLANET A) (STV 0.2 0.1))) 100 &ruleSpace 5)
+!(loop (((PLANET A) (STV 0.2 0.1))) 500 &ruleSpace 300)

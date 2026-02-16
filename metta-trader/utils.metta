@@ -238,16 +238,17 @@
     ) (: Rule $id $ttv (STV $strength $confidence) $comp $impl)
 ))
 
-(= (updateRule $selectedRule $reward) (
+(= (updateRule $rule $reward) (
     let* (
-        ((STV $s $c) (extractRule STV $selectedRule))
+        ($ruleAction (extractRule Action $rule))
+        ((STV $s $c) (extractRule STV $rule))
         (($alpha $beta) (eval (stvToBeta ($s $c))))
-        ; ($_ (println! (Rule STV: $alpha $beta)))
         (($newAlpha $newBeta) (updateBeta $alpha $beta $reward))
         (($newStrength $newConfidence) (eval (betaToSTV ($newAlpha $newBeta))))
-        ; ($_ (println! (Updated $newStrength $newConfidence)))
-        ($newRule (updateSTV $selectedRule ($newStrength $newConfidence)))
-    ) $newRule
+    ) (if (== $ruleAction ((TRAVEL)))
+        $rule
+        (updateSTV $rule ($newStrength $newConfidence))
+    )
 ))
 
 ;; Update Atoms in a space
