@@ -211,8 +211,6 @@
         ))
 ))
 
-
-
 (= (evaluateState $contexts $money) (
     let* (
         (($item $stv) (getItem $contexts))
@@ -232,6 +230,17 @@
         )
 ))
 
+(= (dynamicBetaUpdate $alpha $beta $reward) (
+    let* (
+        (($updatedAlpha $updatedBeta) (updateBeta $alpha $beta $reward))
+        ($C 50)
+        ($discountFactor (/ $C (+ 1 $C)))
+        ($_ (println! (Updated Alpha: $updatedAlpha Updated Beta: $updateBeta Discount Factor: $discountFactor)))
+    ) (if (>= (+ $alpha $beta) $C)
+        ((* $updatedAlpha $discountFactor) (* $updatedBeta $discountFactor))
+        ($updatedAlpha $updatedBeta))
+))
+
 (= (updateSTV $rule ($strength $confidence)) (
     let* (
         ((: Rule $id $ttv (STV $s $c) $comp $impl) $rule)
@@ -243,7 +252,9 @@
         ($ruleAction (extractRule Action $rule))
         ((STV $s $c) (extractRule STV $rule))
         (($alpha $beta) (eval (stvToBeta ($s $c))))
-        (($newAlpha $newBeta) (updateBeta $alpha $beta $reward))
+        ; (($newAlpha $newBeta) (updateBeta $alpha $beta $reward))
+        (($newAlpha $newBeta) (dynamicBetaUpdate $alpha $beta $reward))
+        ($_ (println! (Alpha: $newAlpha Beta: $newBeta)))
         (($newStrength $newConfidence) (eval (betaToSTV ($newAlpha $newBeta))))
     ) (if (== $ruleAction ((TRAVEL)))
         $rule
