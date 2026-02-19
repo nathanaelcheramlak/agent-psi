@@ -342,10 +342,3 @@
 
 !(addRule &ruleSpace)
 !(pln-reasoning (collapse (get-atoms &ruleSpace)))
-; !(test (pln-reasoning (collapse (get-atoms &ruleSpace))) 
-;     (
-;         (: Rule 4 (TTV 1) (STV 0.3125 0.002) (Complexity 2) (IMPLICATION (AND (Context (STV 0.2 0.1) (AND ((LEFT_SQUARE (STV 0.2 0.1)) (STILL_ALIVE (STV 0.2 0.1))))) (Action (SEQ_AND (MOVE_RIGHT MOVE_RIGHT)))) (Goal (STV 0.2 0.1) (AND ((RIGHT_SQUARE (STV 0.2 0.1)) (STILL_ALIVE (STV 0.2 0.1))))))) 
-;         (: Rule 5 (TTV 1) (STV 0.25 0.002) (Complexity 1) (IMPLICATION (AND (Context (STV 0.2 0.1) (AND ((LEFT_SQUARE (STV 0.2 0.1)) (STILL_ALIVE (STV 0.2 0.1))))) (Action (SEQ_AND (MOVE_RIGHT)))) (Goal (STV 0.2 0.1) (AND ((CENTER_SQUARE (STV 0.2 0.1)) (STILL_ALIVE (STV 0.2 0.1)) (DEAD (STV 0.2 0.1))))))) 
-;         (: Rule 6 (TTV 1) (STV 0.3125 0.001996007984031936) (Complexity 1) (IMPLICATION (AND (Context (STV 0.2 0.1) (AND ((CENTER_SQUARE (STV 0.2 0.1)) (DEAD (STV 0.2 0.1))))) (Action (SEQ_AND (MOVE_RIGHT)))) (Goal (STV 0.2 0.1) (AND ((CENTER_SQUARE (STV 0.2 0.1)) (STILL_ALIVE (STV 0.2 0.1)))))))
-;     )
-; )
